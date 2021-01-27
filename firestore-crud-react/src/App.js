@@ -1,9 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
 
+import Links from './components/Links'
+import LinkForm from './components/LinkForm'
 function App() {
   return (
-    <h1></h1>
+    <div className="container container-fluid">
+      <div className="row pt-4">
+        <LinkForm/>
+        <Links/>
+      </div>
+      
+    </div>
+    
   );
 }
 

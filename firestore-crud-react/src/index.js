@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import './firebase'
+import 'bootswatch/dist/darkly/bootstrap.min.css'
 
 ReactDOM.render(
   <React.StrictMode>
