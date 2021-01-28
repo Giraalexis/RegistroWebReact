@@ -14,6 +14,15 @@ const Links = () =>{
         console.log("new task added");
     }
 
+    //Eliminar Enlace
+    const onDeleteLink = async (id)=>{
+        if(window.confirm("¿ Seguro que desea eliminar este enlace ?")){
+            //de esta colecion, el documento con esta id, eliminalo
+            await db.collection('links').doc(id).delete();
+            console.log("task delete");
+        }
+    }
+
     //obtiene los datos de la bd y los muestra, si estos cambian, los actualiza
     const getLinks = async ()=>{
         //obtener una 'foto' de la bd, si cambia....
@@ -37,17 +46,17 @@ const Links = () =>{
 
     return <div className="col">
             <LinkForm addOrEditLink={addOrEditLink}/>
-            <div className="col mx-auto p-0 pt-2 pb-4">
+            <div className="col mx-auto p-0 pb-4">
                 {links.map( (link) =>( 
                     <div className="card mt-2" key={link.id}>
                         <div className="card-body">
                             <div className="d-flex justify-content-between">
                                 <h4>{link.name}</h4>
-                                <i className="material-icons text-danger">close</i>
+                                <i  onClick={ () => onDeleteLink(link.id)} className="btn btn-lg material-icons text-danger">close</i>
                             </div>
                             <div className="d-flex justify-content-between">
                                 <p>{link.descripcion}</p>
-                                <i className="material-icons text-warning">create</i>
+                                <i className="btn btn-lg material-icons text-warning">create</i>
                             </div>     
                             <a href={link.url} target="_blanck">Ir al sitio</a>
                         </div>
