@@ -27,6 +27,7 @@ const LinkForm = (props) =>{
         e.preventDefault();
         console.log(values);
         props.addOrEditLink(values)
+        setValues({...initialStateValues})
     }
 
     return (
@@ -35,16 +36,16 @@ const LinkForm = (props) =>{
                 <div className="input-group-text bg-secondary">
                 <i className="material-icons">insert_link</i>
                 </div>
-                <input onChange={handleInputChange} className="form-control" type="text" placeholder="Url..." name="url"/>
+                <input value={values.url} onChange={handleInputChange} className="form-control" type="text" placeholder="Url..." name="url"/>
             </div>
             <div className="form-group input-group">
                 <div className="input-group-text bg-success">
                     <i className="material-icons">create</i>
                 </div>
-                <input onChange={handleInputChange} className="form-control" name="name" placeholder="Nombre de la Web" type="text"/>
+                <input value={values.name} onChange={handleInputChange} className="form-control" name="name" placeholder="Nombre de la Web" type="text"/>
             </div>
             <div className="form-group">
-                <textarea onChange={handleInputChange} className="form-control" name="descripcion" rows="3" placeholder="Ingresar descripcion del sitio Web"></textarea>
+                <textarea value={values.descripcion} onChange={handleInputChange} className="form-control" name="descripcion" rows="3" placeholder="Ingresar descripcion del sitio Web"></textarea>
             </div>
             <button className="btn btn-block bg-warning">Guardar</button>
         </form>
