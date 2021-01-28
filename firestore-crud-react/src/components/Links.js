@@ -37,6 +37,23 @@ const Links = () =>{
 
     return <div className="col">
             <LinkForm addOrEditLink={addOrEditLink}/>
+            <div className="col mx-auto p-0 pt-2 pb-4">
+                {links.map( (link) =>( 
+                    <div className="card mt-2" key={link.id}>
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between">
+                                <h4>{link.name}</h4>
+                                <i className="material-icons text-danger">close</i>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <p>{link.descripcion}</p>
+                                <i className="material-icons text-warning">create</i>
+                            </div>     
+                            <a href={link.url} target="_blanck">Ir al sitio</a>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
 }
 
