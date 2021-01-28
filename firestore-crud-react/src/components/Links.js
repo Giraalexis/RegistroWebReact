@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import LinkForm from './LinkForm'
 
 import {db} from '../firebase'
+import {toast} from 'react-toastify'
 
 const Links = () =>{
 
@@ -11,7 +12,7 @@ const Links = () =>{
     const addOrEditLink = async (linkObject) =>{
         //en la bd, en la colecion, crea un objeto (ejemplo())
         await db.collection('links').doc().set(linkObject);
-        console.log("new task added");
+        toast('Nuevo enlace agregado', {type:'success'});
     }
 
     //Eliminar Enlace
@@ -19,7 +20,7 @@ const Links = () =>{
         if(window.confirm("¿ Seguro que desea eliminar este enlace ?")){
             //de esta colecion, el documento con esta id, eliminalo
             await db.collection('links').doc(id).delete();
-            console.log("task delete");
+            toast('Enlace eliminado', {type:'error'});
         }
     }
 
