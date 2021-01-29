@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import { db } from '../firebase';
 
 
 const LinkForm = (props) =>{
@@ -31,6 +32,22 @@ const LinkForm = (props) =>{
         setValues({...initialStateValues})
     }
 
+    const getLinkById = async (id)=>{
+        //de la bd, en la colecion, trae el documento con la id
+        const doc = await db.collection('links').doc(id).get();
+        //establece los datos obtenidos en el formulario
+        setValues({...doc.data()})
+    }
+
+    //si el estado currentId(editando) cambia...
+    useEffect(()=>{
+        if(props.currentId === ''){
+            setValues({...initialStateValues});
+        } else{
+            getLinkById(props.currentId);
+        }
+    }, [props.currentId])
+
     return (
         <form className="card card-body" onSubmit={handleSubmit}>
             <div className="form-group input-group">
@@ -48,7 +65,9 @@ const LinkForm = (props) =>{
             <div className="form-group">
                 <textarea value={values.descripcion} onChange={handleInputChange} className="form-control" name="descripcion" rows="3" placeholder="Ingresar descripcion del sitio Web"></textarea>
             </div>
-            <button className="btn btn-block bg-warning">Guardar</button>
+            <button className="btn btn-block bg-warning">
+                {props.currentId === '' ? 'Guardar': 'Modificar'}
+            </button>
         </form>
     )
 }

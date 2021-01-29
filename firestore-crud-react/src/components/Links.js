@@ -7,12 +7,21 @@ import {toast} from 'react-toastify'
 const Links = () =>{
 
     const [links,setLinks] = useState([]);
+    const [currentId,setCurrentId] = useState('');
 
     //Agregar dato
     const addOrEditLink = async (linkObject) =>{
-        //en la bd, en la colecion, crea un objeto (ejemplo())
-        await db.collection('links').doc().set(linkObject);
-        toast('Nuevo enlace agregado', {type:'success'});
+        if(currentId === ''){ //si no esta editando (el estado current es vacio)
+            //en la bd, en la colecion, crea un objeto 
+            await db.collection('links').doc().set(linkObject);
+            toast('Nuevo enlace agregado', {type:'success'});
+
+        } else { //si tiene un id, se actualiza
+            await db.collection('links').doc(currentId).update(linkObject);
+            toast('Sitio actualizado', {type:'info'});
+            setCurrentId('');
+        }
+        
     }
 
     //Eliminar Enlace
@@ -46,7 +55,7 @@ const Links = () =>{
     }, [])
 
     return <div className="col">
-            <LinkForm addOrEditLink={addOrEditLink}/>
+            <LinkForm {...{addOrEditLink, currentId, links}}/>
             <div className="col mx-auto p-0 pb-4">
                 {links.map( (link) =>( 
                     <div className="card mt-2" key={link.id}>
@@ -57,9 +66,9 @@ const Links = () =>{
                             </div>
                             <div className="d-flex justify-content-between">
                                 <p>{link.descripcion}</p>
-                                <i className="btn btn-lg material-icons text-warning">create</i>
+                                <i onClick={() => setCurrentId(link.id)} className="btn btn-lg material-icons text-warning">create</i>
                             </div>     
-                            <a href={link.url} target="_blanck">Ir al sitio</a>
+                            <a href={link.url} target="_blank" rel="noopener noreferrer">Ir al sitio</a>
                         </div>
                     </div>
                 ))}
