@@ -11,26 +11,36 @@ const Links = () =>{
 
     //Agregar dato
     const addOrEditLink = async (linkObject) =>{
-        if(currentId === ''){ //si no esta editando (el estado current es vacio)
-            //en la bd, en la colecion, crea un objeto 
-            await db.collection('links').doc().set(linkObject);
-            toast('Nuevo enlace agregado', {type:'success'});
-
-        } else { //si tiene un id, se actualiza
-            await db.collection('links').doc(currentId).update(linkObject);
-            toast('Sitio actualizado', {type:'info'});
-            setCurrentId('');
+        try{
+            if(currentId === ''){ //si no esta editando (el estado current es vacio)
+                //en la bd, en la colecion, crea un objeto 
+                await db.collection('links').doc().set(linkObject);
+                toast('Nuevo enlace agregado', {type:'success'});
+    
+            } else { //si tiene un id, se actualiza
+                await db.collection('links').doc(currentId).update(linkObject);
+                toast('Sitio actualizado', {type:'info'});
+                setCurrentId('');
+            }
+        }catch(e){
+            toast('Error de conexion bd', {type:'warning'});
         }
+        
         
     }
 
     //Eliminar Enlace
     const onDeleteLink = async (id)=>{
-        if(window.confirm("¿ Seguro que desea eliminar este enlace ?")){
-            //de esta colecion, el documento con esta id, eliminalo
-            await db.collection('links').doc(id).delete();
-            toast('Enlace eliminado', {type:'error'});
+        try{
+            if(window.confirm("¿ Seguro que desea eliminar este enlace ?")){
+                //de esta colecion, el documento con esta id, eliminalo
+                await db.collection('links').doc(id).delete();
+                toast('Enlace eliminado', {type:'error'});
+            }
+        }catch(e){
+            toast('Error de conexion bd', {type:'warning'});
         }
+        
     }
 
     //obtiene los datos de la bd y los muestra, si estos cambian, los actualiza

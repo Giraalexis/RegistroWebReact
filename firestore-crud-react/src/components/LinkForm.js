@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { db } from '../firebase';
-
+import {toast} from 'react-toastify'
 
 const LinkForm = (props) =>{
 
@@ -33,10 +33,15 @@ const LinkForm = (props) =>{
     }
 
     const getLinkById = async (id)=>{
-        //de la bd, en la colecion, trae el documento con la id
-        const doc = await db.collection('links').doc(id).get();
-        //establece los datos obtenidos en el formulario
-        setValues({...doc.data()})
+        try{
+            //de la bd, en la colecion, trae el documento con la id
+            const doc = await db.collection('links').doc(id).get();
+            //establece los datos obtenidos en el formulario
+            setValues({...doc.data()})
+        } catch(e){
+            toast('Error de conexion bd', {type:'warning'});
+        }
+        
     }
 
     //si el estado currentId(editando) cambia...
